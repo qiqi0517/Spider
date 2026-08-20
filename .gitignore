@@ -1,0 +1,74 @@
+# Python
+
+# Python cache
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Python distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+
+
+# Environment Variables / Secrets
+.env
+.env.*
+!.env.example
+
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+
+# IDE / Editor
+.vscode/
+.idea/
+
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+
+# Django
+
+# SQLite database
+*.sqlite3
+*.sqlite3-journal
+
+# Django local settings
+local_settings.py
+
+
+# Spider / Crawled Data
+
+# Raw data downloaded by the spider
+data/raw/*
+
+# Processed/generated data
+data/processed/*
+
+# Keep the directories in Git
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+
+# Logs
+*.log
+
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*~
