@@ -48,7 +48,7 @@ def parse_music_data(page: Page, context: BrowserContext):
             pipeline.save_to_json(config.RAW_PATH + "/singer_list.json", singer_list)
         if i % 100 == 0:
             pipeline.save_to_json(config.RAW_PATH + f"/checkpoint/singer_list/singer_list_extra_{i}.json", singer_list)
-            logger.info(f"already check {i+1} songs")
+            logger.info(f"already check {i+1} songs, getting {len(singer_list)} singers")
 
 
 def parse_singer_page(page: Page, context: BrowserContext, parse_songs=True) -> tuple[dict, dict]:

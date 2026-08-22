@@ -102,7 +102,7 @@ def get_images():
             logger.info(f"image {singer['image_url']} successfully saved")
         except Exception as e:
             logger.error(f"fail to download singer_image {singer['image_url']} for {repr(e)}")
-        # time.sleep(config.SLEEP_TIME)
+        time.sleep(config.SLEEP_TIME)
     song_list = pipeline.load_from_json(config.RAW_PATH + "/song_list.json")
     for song in song_list.values():
         try:
@@ -110,7 +110,7 @@ def get_images():
             pipeline.download_image(song["image_url"], config.IMAGE_PATH + f"/songs/{filename}.jpg")
         except Exception as e:
             logger.error(f"fail to download song_image {song['image_url']} for {repr(e)}")
-        # time.sleep(config.SLEEP_TIME)
+        time.sleep(config.SLEEP_TIME)
 
 
 

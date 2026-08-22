@@ -52,15 +52,32 @@ local_settings.py
 
 # Spider / Crawled Data
 
-# Raw data downloaded by the spider
+# html data from crawler
+data/html/*
+
+# Raw data from the parser
 data/raw/*
 
 # Processed/generated data
 data/processed/*
 
+# image data
+data/image/*
+
+# backup data
+backup
+
 # Keep the directories in Git
+!data/html/.gitkeep
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/image/.gitkeep
+
+
+# Personal Information
+spider/qq_state.json
+spider/config.py
+spider/cookies.json
 
 
 # Logs
@@ -72,3 +89,7 @@ data/processed/*
 *.temp
 *.bak
 *~
+
+
+# Tests
+spider/test_spider.py
