@@ -76,7 +76,7 @@ backup
 
 # Personal Information
 spider/qq_state.json
-spider/config.py
+spider/config_local.py
 spider/cookies.json
 
 
