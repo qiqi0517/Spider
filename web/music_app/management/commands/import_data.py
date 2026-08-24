@@ -78,12 +78,9 @@ class Command(BaseCommand):
                     minute = int(time_data["minute"]), 
                 )
                 # add comment to sql
-                Comment.objects.update_or_create(
-                    id = id + f"_{i+1}",
-                    defaults={
-                        "song": song,
-                        "text": comment_data["text"],
-                        "time": timezone.make_aware(time),
-                    }
+                Comment.objects.create(
+                    song = song,
+                    text = comment_data["text"],
+                    time = timezone.make_aware(time)
                 )
                 logger.info(f"add comment {comment_data['text'][:5]}... of song {data['song_name']}")

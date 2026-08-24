@@ -1,0 +1,97 @@
+{% if page_obj.paginator.num_pages > 1 %}
+    <!-- 点击页码跳转 -->
+    <nav class="mt-4" aria-label="歌曲列表分页">
+        <ul class="pagination justify-content-center">
+            <!-- 首页 -->
+            {% if page_obj.number == 1 %}
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        首页
+                    </span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query_str }}page=1">
+                        首页
+                    </a>
+                </li>
+            {% endif %}
+            <!-- 上一页 -->
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query_str }}page={{ page_obj.previous_page_number }}">
+                        上一页
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        上一页
+                    </span>
+                </li>            
+            {% endif %}
+            <!-- 页码 -->
+            {% for num in page_numbers %}
+                {% if num == "..." %}
+                    <li class="page-item disabled">
+                        <span class="page-link">
+                            ...
+                        </span>
+                    </li>                     
+                {% elif num == page_obj.number %}
+                    <li class="page-item active">
+                        <span class="page-link">
+                            {{ num }}
+                        </span>
+                    </li>                  
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?{{ query_str }}page={{ num }}">
+                            {{ num }}
+                        </a>
+                    </li>                
+                {% endif %}
+            {% endfor %}
+            <!-- 下一页 -->
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query_str }}page={{ page_obj.next_page_number }}">
+                        下一页
+                    </a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        下一页
+                    </span>
+                </li>            
+            {% endif %}
+            <!-- 尾页 -->
+            {% if page_obj.number == page_obj.paginator.num_pages %}
+                <li class="page-item disabled">
+                    <span class="page-link">
+                        尾页
+                    </span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="?{{ query_str }}page={{ page_obj.paginator.num_pages }}">
+                        尾页
+                    </a>
+                </li>
+            {% endif %}                            
+        </ul>
+    </nav>
+    <!-- 输入页码跳转 -->
+    <div class="d-flex justify-content-center mt-3">
+        <form method="get" class="d-flex">
+            {% for key, value in request.GET.items %}
+                {% if key != "page" %}
+                    <input type="hidden" name="{{ key }}" value="{{ value }}">
+                {% endif %}
+            {% endfor %}
+            <input type="number" name="page" min="1" max="{{ page_obj.paginator.num_pages }}" class="form-control" value="{{ page_obj.number }}" required>
+            <button type="submit" class="btn btn-primary ms-2 text-nowrap">跳转</button>
+        </form>        
+    </div>
+{% endif %}

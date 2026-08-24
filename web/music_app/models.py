@@ -28,7 +28,6 @@ class Song(models.Model):
 
 class Comment(models.Model):
     # info
-    id = models.CharField(max_length=30, primary_key=True, unique=True)
     song = models.ForeignKey(Song, on_delete=models.CASCADE, related_name="comments")
     text = models.CharField()
     time = models.DateTimeField()

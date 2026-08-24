@@ -1,0 +1,11 @@
+<a href="{% url 'song_detail' song.id %}" class="list-group-item list-group-item-action">
+    <div class="d-flex align-items-center gap-3">
+        <img src="{{ song.image_url }}" alt="{{ song.name }}" class="rounded-circle me-3" width="40" height="40">
+        <h5 class="mb-0 text-nowrap flex-shrink-0">{{ song.name }}</h5>
+        <small class="text-muted">
+            {% for singer in song.singers.all %}
+                {{ singer.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </small>
+    </div>
+</a>

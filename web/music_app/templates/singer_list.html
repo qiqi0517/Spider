@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+歌手列表 - QiQi的音乐网站
+{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">歌手列表</h1>
+<!-- 歌曲列表 -->
+<div class="list-group">
+    {% for singer in page_obj %}
+        {% include "components/singer_card.html" %}
+    {% endfor %}
+</div>
+<!-- 分页 -->
+{% include "components/pagination.html" %}
+{% endblock %}

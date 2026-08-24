@@ -1,0 +1,25 @@
+<form method="get" action="{% url 'search_result' %}" class="d-flex align-items-center">
+    <!-- 搜索框 -->
+    <input type="text" name="q" class="form-control" maxlength="20" placeholder="请输入关键词或文本" required>
+    <!-- 单选搜索类型 -->
+    <div class="ms-2 text-nowrap">
+        <!-- 歌曲选项 -->
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="search-song" value="song" checked>
+            <label class="form-check-label" for="search-song">
+                歌曲
+            </label>
+        </div>
+        <!-- 歌手选项 -->
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="type" id="search-singer" value="singer">
+            <label class="form-check-label" for="search-singer">
+                歌手
+            </label>
+        </div>
+    </div>
+    <!-- 搜索按钮 -->
+    <button type="submit" class="btn btn-primary ms-2 text-nowrap">
+        搜索
+    </button>
+</form>
