@@ -11,7 +11,7 @@ def get_music_data():
         try:
             with sync_playwright() as p:
                 browser = p.chromium.launch(headless=False)
-                context = browser.new_context(storage_state="qq_state.json")
+                context = browser.new_context(storage_state="local_config/qq_state.json")
                 page = open_page(context, config.BASIC_URL+"/n/ryqq_v2/singer_list")
                 # roll to bottom twice
                 while page.locator('ul.singer_list_txt li.singer_list_txt__item a').count() < 300:

@@ -26,7 +26,7 @@ def save_to_scv(file, content):
 def download_image(url, file):
     if os.path.exists(file):
         return
-    cookies = load_from_json("cookies.json")
+    cookies = load_from_json("local_config/cookies.json")
     session = requests.Session()
     for cookie in cookies:
         session.cookies.set(

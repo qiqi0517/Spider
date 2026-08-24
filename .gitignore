@@ -75,9 +75,8 @@ backup
 
 
 # Personal Information
-spider/qq_state.json
-spider/config_local.py
-spider/cookies.json
+spider/local_config/*
+!spider/local_config/.gitkeep
 
 
 # Logs
