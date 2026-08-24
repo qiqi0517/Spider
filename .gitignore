@@ -52,9 +52,6 @@ local_settings.py
 
 # Spider / Crawled Data
 
-# html data from crawler
-data/html/*
-
 # Raw data from the parser
 data/raw/*
 
@@ -62,16 +59,16 @@ data/raw/*
 data/processed/*
 
 # image data
-data/image/*
+data/image/singers/*
+data/image/songs/*
 
 # backup data
 backup
 
 # Keep the directories in Git
-!data/html/.gitkeep
 !data/raw/.gitkeep
-!data/processed/.gitkeep
-!data/image/.gitkeep
+!data/image/singers/.gitkeep
+!data/image/songs/.gitkeep
 
 
 # Personal Information
@@ -81,6 +78,8 @@ spider/local_config/*
 
 # Logs
 *.log
+logs/*
+!logs/.gitignore
 
 
 # Temporary files
