@@ -4,14 +4,14 @@ from django.db.models import Count
 from django.urls import reverse
 from django.utils import timezone
 from django.core.paginator import Paginator
-from . import config
+from . import config, search
 from .models import Singer, Song, Comment
 from datetime import datetime
 
 # Create your views here.
 def song_list(request):
     songs = Song.objects.all().order_by("id")
-    paginator = Paginator(songs, config.SONG_PER_PAGE)
+    paginator = Paginator(songs, config.ITEM_PER_PAGE)
     page_number = request.GET.get("page", 1)
     page_obj = paginator.get_page(page_number)
     page_numbers = get_page_numbers(page_obj)
@@ -38,7 +38,7 @@ def song_detail(request, id):
 
 def singer_list(request):
     singers = Singer.objects.annotate(song_count=Count("songs")).order_by("-song_count")
-    paginator = Paginator(singers, config.SINGER_PER_PAGE)
+    paginator = Paginator(singers, config.ITEM_PER_PAGE)
     page_number = request.GET.get("page", 1)
     page_obj = paginator.get_page(page_number)
     page_numbers = get_page_numbers(page_obj)
@@ -64,10 +64,30 @@ def singer_detail(request, id):
 def search_result(request):
     query = request.GET.get("q")
     search_type = request.GET.get("type")
-    # serching algorithm
+    if search_type == "song":
+        result, time = search.search_songs(query)
+    elif search_type == "singer":
+        result, time = search.search_singers(query)
+    else:
+        raise Http404("unknown search_type")
+    paginator = Paginator(result, config.ITEM_PER_PAGE)
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
+    page_numbers = get_page_numbers(page_obj)
     query_str = f"q={query}&type={search_type}&"
-    context = None
-    return render(request, "search_result.html", context)
+    context = {
+        "query": query,
+        "page_obj": page_obj,
+        "search_time": time,
+        "page_numbers": page_numbers,
+        "query_str": query_str,
+    }
+    if search_type == "song":
+        return render(request, "search_result_song.html", context)
+    elif search_type == "singer":
+        return render(request, "search_result_singer.html", context)
+    else:
+        raise Http404("unknown search_type")
 
 
 def delete_comment(request, id):

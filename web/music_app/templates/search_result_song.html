@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+搜索结果 - 歌曲 - QiQi的音乐网站
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- 搜索信息 -->
+    <div class="mb-4">
+        <h2 class="fw-bold">搜索结果</h2>
+        <p class="text-muted mb-1">
+            关键词：
+            <span class="fw-semibold text-dark">
+                “ {{ query }} ”
+            </span>
+            ，
+            类别：
+            <span class="fw-semibold text-dark">
+                歌曲
+            </span>            
+        </p>
+        <p class="text-muted">
+            共找到
+            <span class="fw-semibold">
+                {{ page_obj.paginator.count }}
+            </span>
+            个结果，
+            耗时
+            <span class="fw-semibold">
+                {{ search_time|floatformat:4 }}
+            </span>
+            秒
+        </p>
+    </div>
+    <!-- 分割线 -->
+    <hr>
+    <!-- 搜索结果 -->
+    {% if page_obj %}
+        <div class="list-group shadow-sm">
+            {% for song in page_obj %}
+                {% include "components/song_card.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-secondary text-center">
+            未找到相关歌曲
+        </div>
+    {% endif %}
+    <!-- 分页 -->
+    {% include "components/pagination.html" %}
+</div>
+{% endblock %}

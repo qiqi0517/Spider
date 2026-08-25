@@ -5,13 +5,14 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="mb-4">歌手列表</h1>
-<!-- 歌曲列表 -->
-<div class="list-group">
-    {% for singer in page_obj %}
-        {% include "components/singer_card.html" %}
-    {% endfor %}
+<div class="container mt-4">
+    <h3 class="mb-4">歌手列表</h2>
+    <div class="list-group shadow-sm">
+        {% for singer in page_obj %}
+            {% include "components/singer_card.html" %}
+        {% endfor %}
+    </div>
+    <!-- 分页 -->
+    {% include "components/pagination.html" %}
 </div>
-<!-- 分页 -->
-{% include "components/pagination.html" %}
 {% endblock %}
