@@ -60,9 +60,9 @@
         </div>
     </div>
     <!-- 歌曲列表 -->
-    <div class="mt-5">
-        <h2>收录歌曲</h2>
-        <div class="list-group">
+    <div class="container mt-5">
+        <h3 class="mb-4">歌曲列表</h2>
+        <div class="list-group shadow-sm">
             {% for song in singer.songs.all %}
                 {% include "components/song_card.html" %}
             {% endfor %}

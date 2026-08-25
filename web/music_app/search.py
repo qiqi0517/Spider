@@ -1,7 +1,7 @@
-import json, time
+import time
 from django.conf import settings
 from music_app.models import Singer, Song
-from music_app import config
+from music_app import config, rank
 
 INDEX_PATH = settings.BASE_DIR / "data"
 
@@ -21,15 +21,20 @@ def search_songs(query: str):
                 search_result.append(song)
                 continue
             # singers
+            found = False
             for singer in song.singers.all():
                 if query in singer.name:
                     search_result.append(song)
-                    continue
+                    found = True
+                    break
+            if found == True:
+                continue
             # lyrics
             if query in "".join(song.lyrics):
                 search_result.append(song)
+    ranked_result = sorted(search_result, key = lambda song: rank.calc_song_score(song, query), reverse=True)
     end_time = time.time()
-    return search_result, end_time - start_time
+    return ranked_result, end_time - start_time
 
 
 def search_singers(query: str):
@@ -49,8 +54,9 @@ def search_singers(query: str):
             # lyrics
             if query in "".join(singer.info):
                 search_result.append(singer)
+    ranked_result = sorted(search_result, key = lambda singer: rank.calc_singer_score(singer, query), reverse=True)
     end_time = time.time()
-    return search_result, end_time - start_time
+    return ranked_result, end_time - start_time
 
 
 

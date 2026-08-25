@@ -1,10 +1,8 @@
 # Python
-
 # Python cache
 **pycache**/
 *.py[cod]
 *$py.class
-
 # Python distribution / packaging
 *.egg
 *.egg-info/
@@ -41,34 +39,35 @@ Desktop.ini
 
 
 # Django
-
 # SQLite database
 *.sqlite3
 *.sqlite3-journal
-
 # Django local settings
 local_settings.py
 
 
 # Spider / Crawled Data
-
 # Raw data from the parser
-data/raw/*
-
-# Processed/generated data
-data/processed/*
-
+data/raw/singer_list.json
+data/raw/song_list.json
+data/raw/checkpoint/singer_list/*
+data/raw/checkpoint/song_list/*
 # image data
 data/image/singers/*
 data/image/songs/*
-
 # backup data
 backup
-
 # Keep the directories in Git
 !data/raw/.gitkeep
+!data/raw/checkpoint/singer_list/.gitkeep
+!data/raw/checkpoint/song_list/.gitkeep
 !data/image/singers/.gitkeep
 !data/image/songs/.gitkeep
+
+
+# Web data
+web/data/*
+!web/data/.gitkeep
 
 
 # Personal Information

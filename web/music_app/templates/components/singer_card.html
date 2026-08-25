@@ -2,6 +2,6 @@
     <div class="d-flex align-items-center">
         <img src="{{ singer.image_url }}" alt="{{ singer.name }}" class="rounded-circle me-3" width="40" height="40">
         <h5 class="mb-0">{{ singer.name }}</h5>
-        <small class="ms-auto">收录{{ singer.song_count }}首歌</small>
+        <small class="ms-auto">收录{{ singer.songs.count }}首歌</small>
     </div>
 </a>
