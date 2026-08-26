@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block title %}
 {{ song.name }} - 歌曲详情 - QiQi的音乐网站
@@ -26,7 +25,7 @@
                 <p class="mt-4">
                     <strong>歌手：</strong>
                     {% for singer in song.singers.all %}
-                        <a href="{% url 'singer_detail' singer.id %}" class="me-2 text-break">
+                        <a href="{% url 'singer_detail' singer.id %}" class="me-2 text-break text-muted link-clean">
                             {{ singer.name }}
                         </a>
                         {% if not forloop.last %}, {% endif %}
@@ -37,7 +36,7 @@
                 <!-- 原始网站 -->
                 <p class="mt-4">
                     <strong>原始网站：</strong>
-                    <a href="{{ song.url }}" target="_blank" rel="noopener noreferrer" class="text-break">
+                    <a href="{{ song.url }}" target="_blank" rel="noopener noreferrer" class="text-break text-muted link-clean">
                         {{ song.url }}
                     </a>                  
                 </p>       
@@ -112,9 +111,73 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'music_app/js/song_detail.js' %}"></script>
+<script>
+    const lyricsCollapse = document.getElementById("lyricsCollapse");
+    const lyricsToggleButtons = document.querySelectorAll(".lyricsToggleButton");
+    if (lyricsCollapse && lyricsToggleButtons.length > 0) {
+        lyricsCollapse.addEventListener("show.bs.collapse", function () {
+            lyricsToggleButtons.forEach(function (button) {
+                button.textContent = "折叠歌词";
+            });
+        });
+        lyricsCollapse.addEventListener("hide.bs.collapse", function () {
+            lyricsToggleButtons.forEach(function (button) {
+                button.textContent = "展开歌词";
+            });
+        });
+    }
+
+    const commentInput = document.getElementById("commentInput");
+    if (commentInput) {
+        commentInput.addEventListener("input", function () {
+            this.style.height = "auto";
+            this.style.height = this.scrollHeight + "px";
+        });
+    }
+
+    history.scrollRestoration = "manual";
+    document.querySelectorAll(".comment-action-form").forEach(function (form) {
+        form.addEventListener("submit", function () {
+            sessionStorage.setItem("commentScrollPosition", window.scrollY);
+        });
+    });
+    window.addEventListener("load", function () {
+        const commentScrollPosition = sessionStorage.getItem("commentScrollPosition");
+        if (commentScrollPosition != null) {
+            window.scrollTo(0, Number(commentScrollPosition));
+            sessionStorage.removeItem("commentScrollPosition");
+        }
+    });
+</script>
 {% endblock %}
 
 {% block css %}
-<link href="{% static 'music_app/css/detail.css' %}" rel="stylesheet">
+<style>
+    .cover {
+        width: 225px;
+        height: 225px;
+        object-fit: cover;
+    }
+
+    .comment-input-group {
+        display: flex;
+        align-items: flex-end;
+        gap: 8px;
+    }
+
+    .comment-input-group textarea {
+        flex: 1;
+        resize: none;
+        overflow-y: hidden;
+        padding: 10px 12px;
+    }
+
+    .link-clean {
+        text-decoration: none;
+    }
+    
+    .link-clean:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block title %}
 {{ singer.name }} - 歌手详情 - QiQi的音乐网站
@@ -25,7 +24,7 @@
                 <!-- 原始网站 -->
                 <p class="mt-4">
                     <strong>原始网站：</strong>
-                    <a href="{{ singer.url }}" target="_blank" rel="noopener noreferrer" class="text-break">
+                    <a href="{{ singer.url }}" target="_blank" rel="noopener noreferrer" class="text-break text-muted link-clean">
                         {{ singer.url }}
                     </a>                  
                 </p>       
@@ -77,9 +76,38 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'music_app/js/singer_detail.js' %}"></script>
+<script>
+    const infoCollapse = document.getElementById("infoCollapse");
+    const infoToggleButtons = document.querySelectorAll(".infoToggleButton");
+    if (infoCollapse && infoToggleButtons.length > 0) {
+        infoCollapse.addEventListener("show.bs.collapse", function () {
+            infoToggleButtons.forEach(function (button) {
+                button.textContent = "折叠简介";
+            });
+        });
+        infoCollapse.addEventListener("hide.bs.collapse", function () {
+            infoToggleButtons.forEach(function (button) {
+                button.textContent = "展开简介";
+            });
+        });
+    }
+</script>
 {% endblock %}
 
 {% block css %}
-<link href="{% static 'music_app/css/detail.css' %}" rel="stylesheet">
+<style>
+    .cover {
+        width: 225px;
+        height: 225px;
+        object-fit: cover;
+    }
+
+    .link-clean {
+        text-decoration: none;
+    }
+    
+    .link-clean:hover {
+        text-decoration: underline;
+    }
+</style>
 {% endblock %}
