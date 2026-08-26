@@ -6,12 +6,18 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h3 class="mb-4">歌手列表</h2>
-    <div class="list-group shadow-sm">
-        {% for singer in page_obj %}
-            {% include "components/singer_card.html" %}
-        {% endfor %}
-    </div>
+    <h3 class="mb-4">歌手列表</h3>
+    {% if page_obj %}
+        <div class="list-group shadow-sm">
+            {% for singer in page_obj %}
+                {% include "components/singer_card.html" %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-secondary text-center">
+            暂无歌手
+        </div>
+    {% endif %}
     <!-- 分页 -->
     {% include "components/pagination.html" %}
 </div>

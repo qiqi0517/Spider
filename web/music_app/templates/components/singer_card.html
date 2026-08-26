@@ -1,7 +1,11 @@
 <a href="{% url 'singer_detail' singer.id %}" class="list-group-item list-group-item-action">
-    <div class="d-flex align-items-center">
-        <img src="{{ singer.image.url }}" alt="{{ singer.image_url }}" class="rounded-circle me-3" width="40" height="40">
-        <h5 class="mb-0">{{ singer.name }}</h5>
-        <small class="ms-auto">收录{{ singer.songs.count }}首歌</small>
+    <div class="d-flex flex-wrap align-items-center gap-3">
+        {% if singer.image %}
+            <img src="{{ singer.image.url }}" alt="{{ singer.name }}" class="rounded-circle flex-shrink-0" width="40" height="40">
+        {% else %}
+            <img src="{{ singer.image_url }}" alt="{{ singer.name }}" class="rounded-circle flex-shrink-0" width="40" height="40">
+        {% endif %}
+        <h5 class="mb-0 text-nowrap flex-shrink-0">{{ singer.name }}</h5>
+        <small class="ms-auto text-nowrap">收录{{ singer.song_count }}首歌</small>
     </div>
 </a>

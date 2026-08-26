@@ -1,25 +1,26 @@
-<form method="get" action="{% url 'search_result' %}" class="d-flex align-items-center">
+<form method="get" action="{% url 'search_result' %}" class="d-flex flex-column flex-lg-row align-items-stretch align-items-lg-center gap-2">
     <!-- 搜索框 -->
-    <input type="text" name="q" class="form-control" maxlength="20" placeholder="请输入关键词或文本" required>
+    <label for="search-query" class="visually-hidden">搜索关键词</label>
+    <input id="search-query" type="text" name="q" class="form-control" maxlength="20" value="{{ query|default:'' }}" placeholder="请输入关键词或文本" required>
     <!-- 单选搜索类型 -->
-    <div class="ms-2 text-nowrap">
+    <div class="text-nowrap">
         <!-- 歌曲选项 -->
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="type" id="search-song" value="song" checked>
+            <input class="form-check-input" type="radio" name="type" id="search-song" value="song" {% if search_type != "singer" %}checked{% endif %}>
             <label class="form-check-label" for="search-song">
                 歌曲
             </label>
         </div>
         <!-- 歌手选项 -->
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="type" id="search-singer" value="singer">
+            <input class="form-check-input" type="radio" name="type" id="search-singer" value="singer" {% if search_type == "singer" %}checked{% endif %}>
             <label class="form-check-label" for="search-singer">
                 歌手
             </label>
         </div>
     </div>
     <!-- 搜索按钮 -->
-    <button type="submit" class="btn btn-primary ms-2 text-nowrap">
+    <button type="submit" class="btn btn-primary text-nowrap">
         搜索
     </button>
 </form>

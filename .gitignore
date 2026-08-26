@@ -53,8 +53,8 @@ data/raw/song_list.json
 data/raw/checkpoint/singer_list/*
 data/raw/checkpoint/song_list/*
 # image data
-data/image/singer/*
-data/image/song/*
+data/image/singer/**
+data/image/song/**
 # backup data
 backup
 # Keep the directories in Git
@@ -79,6 +79,11 @@ spider/local_config/*
 *.log
 logs/*
 !logs/.gitignore
+
+
+# Docs
+doc/*
+!doc/.gitkeep
 
 
 # Temporary files

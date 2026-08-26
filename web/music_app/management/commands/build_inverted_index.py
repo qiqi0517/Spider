@@ -1,4 +1,4 @@
-import json, math
+import json, math, os
 from collections import defaultdict
 from django.core.management.base import BaseCommand
 from music_app.models import Singer, Song
@@ -9,8 +9,14 @@ class Command(BaseCommand):
     help = "Import music data from JSON files"
 
     def handle(self, *args, **options):
-        build_song_index()
-        build_singer_index()
+        logger.info("start building inverted indexes")
+        try:
+            build_song_index()
+            build_singer_index()
+        except Exception:
+            logger.exception("fail to build inverted indexes")
+            raise
+        logger.info("finished building inverted indexes; restart runserver to reload them")
 
 
 
@@ -18,8 +24,8 @@ class Command(BaseCommand):
 def build_song_index():
     song_index = defaultdict(dict)
     # add items
-    Song.objects.prefetch_related("singers")
-    for song in Song.objects.all():
+    songs = Song.objects.prefetch_related("singers")
+    for song in songs:
         logger.info(f"building index of {song.name}")
         # song_name
         add_to_index(song_index, song.name, song.id)
@@ -35,8 +41,8 @@ def build_song_index():
         df = len(map_id_tf)
         idf = math.log((num_songs+1)/(df+1))+1
         for id, tf in map_id_tf.items():
-            map_id_tf[id] = tf * idf
-    save_index(song_index, config.INDEX_PATH / "song_index.json")
+            map_id_tf[id] = round(tf * idf, 6)
+    save_indexes(song_index, "song")
     logger.info("succeed in building song_index")
 
 
@@ -56,8 +62,8 @@ def build_singer_index():
         df = len(map_id_tf)
         idf = math.log((num_singers+1)/(df+1))+1
         for id, tf in map_id_tf.items():
-            map_id_tf[id] = tf * idf
-    save_index(singer_index, config.INDEX_PATH / "singer_index.json")
+            map_id_tf[id] = round(tf * idf, 6)
+    save_indexes(singer_index, "singer")
     logger.info("succeed in building singer_index")
 
 
@@ -69,15 +75,29 @@ def add_to_index(index_map: defaultdict[str, dict], text: str, id: str):
     for gram in unigram + bigram:
         if len(gram.strip()) == 0:
             continue
-        index_map[gram][id] = index_map.get(gram, {}).get(id, 0) + text.count(gram)
+        index_map[gram][id] = index_map[gram].get(id, 0) + 1
 
 
 def generate_ngrams(text: str, n):
     if len(text) < n:
         return []
-    return [text[i:i+n] for i in range(len(text)-n+1)]     
+    return [text[i:i+n] for i in range(len(text)-n+1)]
+
+
+def save_indexes(index_map, index_name):
+    unigram_index = {gram: value for gram, value in index_map.items() if len(gram) == 1}
+    bigram_index = {gram: value for gram, value in index_map.items() if len(gram) == 2}
+    save_index(unigram_index, config.INDEX_PATH / f"{index_name}_unigram_index.json")
+    save_index(bigram_index, config.INDEX_PATH / f"{index_name}_bigram_index.json")
 
 
 def save_index(index_map, file_path):
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(index_map, f, ensure_ascii=False, indent=4)
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = file_path.with_suffix(file_path.suffix + ".tmp")
+    logger.info(f"saving index to {file_path}")
+    try:
+        with open(temporary_path, "w", encoding="utf-8") as f:
+            json.dump(index_map, f, ensure_ascii=False, separators=(",", ":"))
+        os.replace(temporary_path, file_path)
+    finally:
+        temporary_path.unlink(missing_ok=True)

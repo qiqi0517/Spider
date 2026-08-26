@@ -1,9 +1,8 @@
-import math
 from music_app.models import Singer, Song
-from music_app import config
+
 
 # rank search_result
-def calc_song_rule_score(song: Song, query):
+def calc_song_rule_score(song: Song, query: str) -> int:
     score = 0
     # song_name
     if query not in song.name:
@@ -28,11 +27,9 @@ def calc_song_rule_score(song: Song, query):
     if query in song.lyrics_text:
         score += 1
     return score
-    
 
 
-
-def calc_singer_rule_score(singer: Singer, query):
+def calc_singer_rule_score(singer: Singer, query: str) -> int:
     score = 0
     # name
     if singer.name == query:

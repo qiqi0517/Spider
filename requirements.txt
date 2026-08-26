@@ -1,0 +1,8 @@
+# Web application
+Django==5.2.15
+Pillow==12.3.0
+
+# Crawler
+beautifulsoup4==4.15.0
+playwright==1.51.0
+requests==2.34.2
