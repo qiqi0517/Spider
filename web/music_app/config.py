@@ -1,5 +1,6 @@
 from django.conf import settings
 from music_app import pipeline
+from music_app.models import Singer, Song
 
 ITEM_PER_PAGE = 20
 

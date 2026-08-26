@@ -32,8 +32,10 @@ def import_singer_data():
             defaults={
                 "name": data["name"],
                 "url": data["url"],
+                "image": f"singer/{id}.jpg",
                 "image_url": data["image_url"],
                 "info": data["info"][3:],
+                "info_text": "".join(data["info"][3:])
             }
         )
         logger.info(f"added singer {data['name']}")
@@ -57,7 +59,9 @@ def import_song_data():
                 "name": data["song_name"],
                 "url": data["url"],
                 "image_url": data["image_url"],
+                "image": f"song/{id}.jpg",
                 "lyrics": data["lyrics"],
+                "lyrics_text": "".join(data["lyrics"])
             }
         )
         logger.info(f"added song {data['song_name']}")

@@ -16,5 +16,6 @@ py manage.py migrate
 py manage.py makemigrations music_app
 py manage.py migrate
 python manage.py import_data
+python manage.py build_inverted_index
 python manage.py runserver
 ```

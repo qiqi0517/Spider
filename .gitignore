@@ -53,16 +53,16 @@ data/raw/song_list.json
 data/raw/checkpoint/singer_list/*
 data/raw/checkpoint/song_list/*
 # image data
-data/image/singers/*
-data/image/songs/*
+data/image/singer/*
+data/image/song/*
 # backup data
 backup
 # Keep the directories in Git
 !data/raw/.gitkeep
 !data/raw/checkpoint/singer_list/.gitkeep
 !data/raw/checkpoint/song_list/.gitkeep
-!data/image/singers/.gitkeep
-!data/image/songs/.gitkeep
+!data/image/singer/.gitkeep
+!data/image/song/.gitkeep
 
 
 # Web data

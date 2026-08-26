@@ -1,33 +1,38 @@
+import math
 from music_app.models import Singer, Song
 from music_app import config
 
 # rank search_result
-def calc_song_score(song: Song, query):
+def calc_song_rule_score(song: Song, query):
     score = 0
     # song_name
-    if song.name == query:
+    if query not in song.name:
+        pass
+    elif song.name == query:
         score += 20
     elif song.name.startswith(query):
         score += 18
-    elif query in song.name:
+    else:
         score += 16
     # singer_name
     for singer in song.singers.all():
-        if singer.name == query:
+        if query not in singer.name:
+            pass
+        elif singer.name == query:
             score += 7
         elif singer.name.startswith(query):
             score += 5
-        elif query in singer.name:
+        else:
             score += 3
     # lyrics
-    if query in song.lyrics:
+    if query in song.lyrics_text:
         score += 1
     return score
     
 
 
 
-def calc_singer_score(singer: Singer, query):
+def calc_singer_rule_score(singer: Singer, query):
     score = 0
     # name
     if singer.name == query:
@@ -37,6 +42,6 @@ def calc_singer_score(singer: Singer, query):
     elif query in singer.name:
         score += 6
     # info
-    if query in singer.info:
-        score += 2
+    if query in singer.info_text:
+        score += 1
     return score

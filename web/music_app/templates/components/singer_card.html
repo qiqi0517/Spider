@@ -1,6 +1,6 @@
 <a href="{% url 'singer_detail' singer.id %}" class="list-group-item list-group-item-action">
     <div class="d-flex align-items-center">
-        <img src="{{ singer.image_url }}" alt="{{ singer.name }}" class="rounded-circle me-3" width="40" height="40">
+        <img src="{{ singer.image.url }}" alt="{{ singer.image_url }}" class="rounded-circle me-3" width="40" height="40">
         <h5 class="mb-0">{{ singer.name }}</h5>
         <small class="ms-auto">收录{{ singer.songs.count }}首歌</small>
     </div>
