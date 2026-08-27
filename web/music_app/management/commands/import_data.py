@@ -99,7 +99,7 @@ def import_song_data():
             try:
                 time_data = comment_data["time"]
                 time = datetime(
-                    year = int(time_data["year"]) if time_data["year"] is not None else datetime.now().year,
+                    year = int(time_data["year"]),
                     month = int(time_data["month"]),
                     day = int(time_data["day"]),
                     hour = int(time_data["hour"]),

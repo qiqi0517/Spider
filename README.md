@@ -1,13 +1,34 @@
-# spider
-local data: 
-    - config_local.py
-    - cookies.json
-    - qq_state.json
-sign in qqMusic to get cookies, then save in config_local.COOKIE
-```shell
+# spider 爬虫部分
+
+爬虫使用 Playwright 获取动态页面。建议使用 Conda 创建独立环境，并安装项目依赖和
+Playwright 所需的 Chromium 浏览器。在项目根目录执行：
+
+```powershell
+conda create --name spider python=3.10
+conda activate spider
+conda install --channel conda-forge --file requirements.txt
+playwright install chromium
+```
+
+首次运行时，先生成本地登录配置：
+
+```powershell
 cd spider
+python get_local_config.py
+```
+
+命令会打开可见的 QQ 音乐页面。完成登录后返回终端并按 Enter，程序会在
+`spider/local_config/` 下生成 `cookies.json` 和 `qq_state.json`。这些文件包含个人登录
+信息，已被 Git 忽略，请勿提交或分享。
+
+登录配置生成后运行爬虫：
+
+```powershell
 python main.py
 ```
+
+后续运行不需要重复登录；仅当登录状态失效或两个配置文件缺失时，才重新执行
+`python get_local_config.py`。
 
 ## Web 音乐信息系统
 
