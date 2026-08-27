@@ -1,4 +1,8 @@
-# spider 爬虫部分
+# Python大作业 - 爬虫与信息系统 - 2026.08
+
+## spider 爬虫部分
+
+### 环境要求
 
 爬虫使用 Playwright 获取动态页面。建议使用 Conda 创建独立环境，并安装项目依赖和
 Playwright 所需的 Chromium 浏览器。在项目根目录执行：
@@ -37,7 +41,7 @@ python main.py
 - Python 3.10 或更高版本
 - 项目依赖见根目录的 `requirements.txt`
 
-建议使用 Conda 创建独立的 Python 3.10 虚拟环境。在项目根目录执行：
+建议使用 Conda 创建独立的 Python 3.10 虚拟环境。请确保已在项目根目录执行以下代码，配置环境：
 
 ```powershell
 conda create --name spider python=3.10
