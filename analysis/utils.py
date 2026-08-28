@@ -1,20 +1,38 @@
-import json
-import re
+import json, re, os
 from pathlib import Path
 import jieba
-from . import config
+import config
+from logger import logger
 
 def load_from_json_dict(file: Path) -> list[dict]:
     """Load a UTF-8 JSON dictionary and return its record values."""
     if not file.is_file():
+        logger.error(f"JSON data file does not exist: {file}")
         raise FileNotFoundError(f"JSON data file does not exist: {file}")
     try:
         with open(file, "r", encoding="utf-8") as f:
             data = json.load(f)
     except (OSError, json.JSONDecodeError) as e:
+        logger.error(f"failed to load JSON data from {file}: {e}")
         raise RuntimeError(f"failed to load JSON data from {file}: {e}") from e
     records = list(data.values())
+    logger.info(f"succeed in looading json_data from {file}")
     return records
+
+
+def save_to_json(file: Path, content: dict | list) -> None:
+    """Save JSON data atomically to avoid leaving a partial output file."""
+    file.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = file.with_suffix(file.suffix + ".tmp")
+    try:
+        with open(temp_file, "w", encoding="utf-8") as f:
+            json.dump(content, f, ensure_ascii=False, indent=4)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp_file, file)
+    finally:
+        if temp_file.exists():
+            temp_file.unlink()
 
 
 def load_stopwords() -> set[str]:
@@ -36,6 +54,7 @@ def clean_lyrics(lyrics: list[str]) -> str:
             continue
         valid_lines.append(line)
         seen_lines.add(line)
+    logger.info(f"cleaned lyrics: {lyrics[:10]}...")
     return "\n".join(valid_lines)
 
 
@@ -55,5 +74,5 @@ def tokenize(text: str, stopwords: set[str]) -> list[str]:
             word.isdigit():
             continue
         tokens.append(word)
+    logger.info(f"tokenized text: {text[:10]}...")
     return tokens
-
