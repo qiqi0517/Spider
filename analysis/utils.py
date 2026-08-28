@@ -1,5 +1,7 @@
 import json, re, os
 from pathlib import Path
+from collections import Counter
+import pandas as pd
 import jieba
 import config
 from logger import logger
@@ -71,7 +73,8 @@ def tokenize(text: str, stopwords: set[str]) -> list[str]:
         if not word or\
             word in stopwords or\
             not any(char.isalnum() for char in word) or\
-            word.isdigit():
+            word.isdigit() or\
+            (len(word) == 1 and not re.fullmatch(r"[\u4e00-\u9fff]", word)):
             continue
         tokens.append(word)
     logger.info(f"tokenized text: {text[:10]}...")

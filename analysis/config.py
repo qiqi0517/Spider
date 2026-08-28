@@ -7,3 +7,4 @@ OUTPUT_DIR = ANALYSIS_DIR / "output"
 STOPWORDS_PATH = ANALYSIS_DIR / "resources" / "stopwords_zh.txt"
 FONT_PATH = Path(r"C:\Windows\Fonts\msyh.ttc")
 LOG_PATH = BASE_DIR / "logs"
+SEED = 40

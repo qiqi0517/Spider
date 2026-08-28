@@ -1,5 +1,4 @@
 import matplotlib
-
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
@@ -42,9 +41,9 @@ def analyse_comment_hours():
     night_ratio = night_comment / valid_comment
     peak_hour = max(HOURS, key=lambda hour: hour_counts[hour])
     peak_cnt = hour_counts[peak_hour]
-    logger.warning(f"got {invalid_comment} invalid comments")
+    if invalid_comment > 0:
+        logger.warning(f"got {invalid_comment} invalid comments")
     logger.info(f"got {valid_comment} valid_comments, {night_comment} night_comments")
-
     assert sum(hour_counts) == valid_comment
     assert 0 <= night_ratio <= 1
     assert 0 <= peak_hour <= 23
