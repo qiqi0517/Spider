@@ -1,5 +1,9 @@
 # QQ 音乐样本数据分析报告
 
+> 姓名：高子淇
+> 学号：2025010481 
+> 班级：计54 
+
 ## 结论概述与数据范围
 
 本报告从项目爬取的 QQ 音乐歌曲、歌词和热门评论数据出发，完成三项分析：
@@ -217,8 +221,6 @@ song_coordinates = TSNE(
 ).fit_transform(song_embeddings)
 ```
 
-  歌曲和聚类信息保存到 `analysis/output/lyrics_tsne/` 下
-
   t-SNE 可视化图表中，按照 cluster 进行分类染色：
 
 ![歌词主题聚类 t-SNE 可视化](../analysis/output/lyrics_tsne/lyrics_theme_tsne.png)
@@ -278,16 +280,8 @@ song_coordinates = TSNE(
 
 本次分析从评论时间、词语使用和歌词语义三个角度得到以下结论：
 
-1. **样本热门评论更集中在晚间和午夜附近。**20:00 至次日 00:59 的评论占 34.72%，0 点以 1527 条成为单小时峰值。
-2. **歌词和热门评论的用词重点不同。**歌词更常出现“爱、世界、时间、回忆”等词，评论更常出现“喜欢、好听、加油、音乐、歌词”等评价和回应性词语。
-3. **歌词语义可以形成多个具有明确特征的聚类。**3789 首有效歌词被分为 32 个簇，可识别追梦励志、古风相思、失恋遗忘、故乡旅途、雨夜思念、海洋离别、说唱态度和多语种流行等主题或表达类型。
+1. 样本热门评论更集中在晚间和午夜附近。20:00 至次日 00:59 的评论占 34.72%，0 点以 1527 条成为单小时峰值。
+2. 歌词和热门评论的用词重点不同。歌词更常出现“爱、世界、时间、回忆”等词，评论更常出现“喜欢、好听、加油、音乐、歌词”等评价和回应性词语。
+3. 歌词语义可以形成多个具有明确特征的聚类。3789 首有效歌词被分为 32 个簇，可识别追梦励志、古风相思、失恋遗忘、故乡旅途、雨夜思念、海洋离别、说唱态度和多语种流行等主题或表达类型。
 
 结论只描述本项目爬取到的样本，并保留热门评论非随机抽样、词频受分词规则影响、聚类受参数和文本质量影响等限制。
-
-## 七、代码与结果文件
-
-| 分析项目 | 分析代码 | 数据表格（`analysis/output/`） | 可视化（`analysis/output/`） |
-| --- | --- | --- | --- |
-| 评论发布时间 | [`analysis/comment_time.py`](../analysis/comment_time.py) | [`comment_hour_counts.csv`](../analysis/output/comment_time/comment_hour_counts.csv)、[`comment_time_info.json`](../analysis/output/comment_time/comment_time_info.json) | [`comment_hour_distribution.png`](../analysis/output/comment_time/comment_hour_distribution.png) |
-| 歌词与评论词云 | [`analysis/wordcloud_analyse.py`](../analysis/wordcloud_analyse.py) | [`lyrics_counter.csv`](../analysis/output/wordcloud/lyrics_counter.csv)、[`comments_counter.csv`](../analysis/output/wordcloud/comments_counter.csv)、[`wordcloud_info.json`](../analysis/output/wordcloud/wordcloud_info.json) | [`wordcloud.png`](../analysis/output/wordcloud/wordcloud.png) |
-| 歌词语义聚类 | [`analysis/lyrics_tsne.py`](../analysis/lyrics_tsne.py) | [`lyrics_tsne_clusters.csv`](../analysis/output/lyrics_tsne/lyrics_tsne_clusters.csv)、[`lyrics_tsne_documents.csv`](../analysis/output/lyrics_tsne/lyrics_tsne_documents.csv) | [`lyrics_theme_tsne.png`](../analysis/output/lyrics_tsne/lyrics_theme_tsne.png) |
