@@ -129,4 +129,3 @@ def analyse_comment_hours():
         "plot_path": str(COMMENT_TIME_OUTPUT_DIR / "comment_hour_distribution.png"),
     }
     utils.save_to_json(COMMENT_TIME_OUTPUT_DIR / "comment_time_info.json", comment_time_info)
-    return comment_time_info

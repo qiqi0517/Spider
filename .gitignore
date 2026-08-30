@@ -70,6 +70,11 @@ web/data/*
 !web/data/.gitkeep
 
 
+# analysis data
+analysis/output/*
+
+
+
 # Personal Information
 spider/local_config/*
 !spider/local_config/.gitkeep
@@ -78,7 +83,7 @@ spider/local_config/*
 # Logs
 *.log
 logs/*
-!logs/.gitignore
+!logs/.gitkeep
 
 
 # Docs

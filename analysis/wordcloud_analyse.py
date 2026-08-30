@@ -92,7 +92,6 @@ def anaylyse_wordcloud():
         "comments_total_tokens": comments_total_tokens,
     }
     utils.save_to_json(WORDCLOUD_OUTPUT_DIR / "wordcloud_info.json", wordcloud_info)
-    return wordcloud_info
 
 
 def create_wordcloud(frequencies, colormap):

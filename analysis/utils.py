@@ -56,7 +56,6 @@ def clean_lyrics(lyrics: list[str]) -> str:
             continue
         valid_lines.append(line)
         seen_lines.add(line)
-    logger.info(f"cleaned lyrics: {lyrics[:10]}...")
     return "\n".join(valid_lines)
 
 
@@ -77,5 +76,4 @@ def tokenize(text: str, stopwords: set[str]) -> list[str]:
             (len(word) == 1 and not re.fullmatch(r"[\u4e00-\u9fff]", word)):
             continue
         tokens.append(word)
-    logger.info(f"tokenized text: {text[:10]}...")
     return tokens
