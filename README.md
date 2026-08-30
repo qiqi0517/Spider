@@ -10,7 +10,7 @@ Playwright 所需的 Chromium 浏览器。在项目根目录执行：
 ```powershell
 conda create --name spider python=3.10
 conda activate spider
-conda install --channel conda-forge --file requirements.txt
+python -m pip install -r requirements.txt
 playwright install chromium
 ```
 
@@ -46,7 +46,7 @@ python main.py
 ```powershell
 conda create --name spider python=3.10
 conda activate spider
-conda install --channel conda-forge --file requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 后续每次重新打开终端时，先执行 `conda activate spider` 再运行项目命令。如果当前
@@ -101,3 +101,71 @@ python manage.py build_inverted_index
 
 索引由 Web 进程按需加载并缓存在内存中。运行中的服务器不会自动读取新索引，因此重建
 索引后需要停止并重新启动 `runserver`。
+
+## 数据分析
+
+### 环境和输入数据
+
+数据分析与爬虫、Web 共用根目录的 `requirements.txt` 和上文创建的 `spider` 环境。
+分析代码使用下列第三方库：
+
+- NumPy、Pandas：数据计算和 CSV 输出；
+- Matplotlib：绘制评论时间柱状图和 t-SNE 散点图；
+- jieba、WordCloud：中文分词和词云生成；
+- scikit-learn：K-Means 聚类和 t-SNE 降维；
+- Sentence Transformers、PyTorch：生成歌词语义向量。
+
+运行前请确认以下文件存在：
+
+```text
+data/raw/song_list.json
+analysis/resources/stopwords_zh.txt
+```
+
+分析图使用微软雅黑显示中文。Windows 默认字体路径为
+`C:\Windows\Fonts\msyh.ttc`；如果系统中没有该字体，或在其他操作系统运行，请先在
+`analysis/config.py` 中将 `FONT_PATH` 改为本机可用的中文字体文件路径。
+
+歌词聚类首次运行时会从 Hugging Face 下载
+`BAAI/bge-small-zh-v1.5` 模型，需要保持 VPN 直连模式并预留模型缓存空间。使用 CPU 也可以
+完成，但生成歌词向量和 t-SNE 降维所需时间较长。安装完成后可先验证 PyTorch：
+
+```powershell
+python -c "import torch; print(torch.__version__); print(torch.rand(1))"
+```
+
+为避免 Windows 下出现 PyTorch DLL 或二进制依赖冲突，建议在新建的 Conda 环境中统一
+使用 `python -m pip install -r requirements.txt`，不要再混用不同来源重复安装 PyTorch。
+
+### 选择分析任务
+
+`analysis/main.py` 中 `run()` 函数的三行调用分别对应三个分析任务：
+
+```python
+comment_time.analyse_comment_hours()
+wordcloud_analyse.anaylyse_wordcloud()
+lyrics_tsne.analyse_lyrics_tsne()
+```
+
+取消某行开头的 `#` 即可启用该任务；暂时不需要运行的任务可以注释。当前代码只启用了
+歌词聚类任务。如果需要一次完成全部分析，应取消前两个调用的注释，使三行调用均生效。
+
+### 运行分析
+
+分析模块使用直接导入，因此必须进入 `analysis` 目录再运行 `main.py`：
+
+```powershell
+conda activate spider
+cd analysis
+python main.py
+```
+
+运行日志写入 `logs/analyser.log`。三项任务的输出如下：
+
+| 分析任务 | 输出目录 | 主要结果 |
+| --- | --- | --- |
+| 热门评论发布时间 | `analysis/output/comment_time/` | 每小时评论数 CSV、统计信息 JSON、柱状图 PNG |
+| 歌词与评论词云 | `analysis/output/wordcloud/` | 两类词频 CSV、统计信息 JSON、词云 PNG |
+| 歌词语义聚类 | `analysis/output/lyrics_tsne/` | 歌曲聚类 CSV、聚类摘要 CSV、t-SNE 散点图 PNG |
+
+程序会自动创建不存在的输出目录；重复运行同一任务时，同名结果文件会被新结果覆盖。
