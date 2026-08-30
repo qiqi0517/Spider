@@ -71,8 +71,12 @@ web/data/*
 
 
 # analysis data
-analysis/output/*
-
+analysis/output/comment_time/*
+analysis/output/lyrics_tsne/*
+analysis/output/wordcloud/*
+!analysis/output/comment_time/*.png 
+!analysis/output/lyrics_tsne/*.png 
+!analysis/output/wordcloud/*.png
 
 
 # Personal Information
