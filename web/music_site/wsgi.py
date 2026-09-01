@@ -14,3 +14,9 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'music_site.settings')
 
 application = get_wsgi_application()
+
+# preload inverted index
+from music_app.search import preload_indexes
+
+elapsed = preload_indexes()
+print(f"search indexes loaded in {elapsed:.2f} seconds")

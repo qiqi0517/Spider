@@ -32,11 +32,13 @@ def calc_song_rule_score(song: Song, query: str) -> int:
 def calc_singer_rule_score(singer: Singer, query: str) -> int:
     score = 0
     # name
-    if singer.name == query:
+    if query not in singer.name:
+        pass
+    elif singer.name == query:
         score += 10
-    if singer.name.startswith(query):
+    elif singer.name.startswith(query):
         score += 8
-    elif query in singer.name:
+    else:
         score += 6
     # info
     if query in singer.info_text:

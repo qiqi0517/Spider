@@ -21,6 +21,16 @@ def get_singer_index(gram_size):
     return pipeline.load_index(config.SINGER_BIGRAM_INDEX_PATH)
 
 
+def preload_indexes():
+    """Load all search indexes into this process before serving requests."""
+    start_time = time.perf_counter()
+    get_song_index(1)
+    get_song_index(2)
+    get_singer_index(1)
+    get_singer_index(2)
+    return time.perf_counter() - start_time
+
+
 # search via index_map
 def search_songs(query: str):
     song_index = get_song_index(1 if len(query) == 1 else 2)
